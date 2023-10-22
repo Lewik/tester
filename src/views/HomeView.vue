@@ -76,13 +76,13 @@ function check() {
   } else {
     let text = "Ты ничего не ввел"
     if (answer.value) {
+      errorCount.value++
       text = answer.value + "? " + getMessage(badMessages, badMessagesCounter)
     }
     result.value = {
       text: text,
       color: "red"
     }
-    errorCount.value++
   }
 
   answer.value = undefined
