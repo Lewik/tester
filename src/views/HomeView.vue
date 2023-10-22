@@ -1,7 +1,7 @@
 <script setup>
 import {computed, ref} from 'vue'
-import {badMessages} from "./bad_messages";
-import {goodMessages} from "./good_messages";
+import {rawGoodMessages} from "./good_messages";
+import {rawBadMessages} from "@/views/bad_messages";
 
 
 const answer = ref()
@@ -13,22 +13,43 @@ const i = ref(0)
 const numberOfExamples = ref(10)
 const exampleRefreshKey = ref(0)
 
-function getRandomItem(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+
+function shuffle(arr) {
+  return arr.map(value => ({
+    value,
+    sort: Math.random()
+  }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({value}) => value)
 }
 
+
+function getMessage(messages, counter) {
+  counter.value++
+  if (messages.value[counter.value] === undefined) {
+    counter.value = 0
+  }
+  return messages.value[counter.value]
+}
+
+
+const goodMessages = computed(() => shuffle(rawGoodMessages))
+const goodMessagesCounter = ref(0)
+
+const badMessages = computed(() => shuffle(rawBadMessages))
+const badMessagesCounter = ref(0)
 
 const score = computed(() => {
   return Math.max(2, 5 * (1 - errorCount.value / numberOfExamples.value))
 })
 
-const scoreText = computed(() => getRandomItem(score.value >= 4 ? goodMessages : badMessages))
+const scoreText = computed(() => score.value >= 4 ? getMessage(goodMessages, goodMessagesCounter) : getMessage(badMessages, badMessagesCounter))
 
 
 const examples = computed(() => {
   console.log("run" + exampleRefreshKey.value)
 
-  const l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const l = [2, 3, 4, 5, 6, 7, 8, 9]
   let r = []
 
   for (const i in l) {
@@ -37,15 +58,7 @@ const examples = computed(() => {
     }
   }
 
-  r = r.map(value => ({
-    value,
-    sort: Math.random()
-  }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({
-              value
-            }) => value)
-      .slice(0, numberOfExamples.value)
+  r = shuffle(r).slice(0, numberOfExamples.value)
 
   return r
 
@@ -54,16 +67,16 @@ const examples = computed(() => {
 const example = computed(() => examples.value[i.value])
 
 function check() {
-  if (answer.value == example.value[0] * example.value[1]) {
+  if (parseInt(answer.value) === example.value[0] * example.value[1]) {
     result.value = {
-      text: getRandomItem(goodMessages),
+      text: getMessage(goodMessages, goodMessagesCounter),
       color: "green"
     }
     answer.value = undefined
     i.value++
   } else {
     result.value = {
-      text: getRandomItem(badMessages),
+      text: getMessage(badMessages, badMessagesCounter),
       color: "red"
     }
     errorCount.value++
@@ -97,7 +110,7 @@ function reset() {
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field type="number" v-model="answer" :autofocus="true" pattern="\d*" ref="answerInput"/>
+          <v-text-field type="number" v-model="answer" :autofocus="true" pattern="\d*" ref="answerInput" size="x-large"/>
         </v-col>
         <v-col>
           <v-btn @click="check" color="green" size="x-large">Ответить</v-btn>
