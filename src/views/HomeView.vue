@@ -28,7 +28,7 @@ const scoreText = computed(() => getRandomItem(score.value >= 4 ? goodMessages :
 const examples = computed(() => {
   console.log("run" + exampleRefreshKey.value)
 
-  const l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   let r = []
 
   for (const i in l) {
