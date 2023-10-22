@@ -1,4 +1,4 @@
-<script lang="js">
+<script setup>
 import {computed, ref} from 'vue'
 import {badMessages} from "./bad_messages";
 import {goodMessages} from "./good_messages";
@@ -10,16 +10,19 @@ const result = ref({})
 const errorCount = ref(0)
 const i = ref(0)
 
-const numberOfExamples = ref(1)
+const numberOfExamples = ref(10)
 const exampleRefreshKey = ref(0)
+
+function getRandomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 
 const score = computed(() => {
   return Math.max(2, 5 * (1 - errorCount.value / numberOfExamples.value))
 })
 
-function getRandomItem(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+const scoreText = computed(() => getRandomItem(score.value >= 4 ? goodMessages : badMessages))
 
 
 const examples = computed(() => {
@@ -122,7 +125,7 @@ function reset() {
       <v-row>
         <v-col>
           <div class="text-h5">
-            {{ getRandomItem(score >= 4 ? goodMessages : badMessages) }}
+            {{ scoreText }}
           </div>
         </v-col>
       </v-row>
