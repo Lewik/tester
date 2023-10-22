@@ -97,7 +97,7 @@ function reset() {
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field type="number" v-model="answer" autofocus="true" pattern="\d*" ref="answerInput"/>
+          <v-text-field type="number" v-model="answer" :autofocus="true" pattern="\d*" ref="answerInput"/>
         </v-col>
         <v-col>
           <v-btn @click="check" color="green" size="x-large">Ответить</v-btn>
