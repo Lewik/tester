@@ -1,7 +1,8 @@
-<script setup>
+<script lang="js">
 import {computed, ref} from 'vue'
 import {badMessages} from "./bad_messages";
 import {goodMessages} from "./good_messages";
+
 
 const answer = ref()
 const answerInput = ref(null);
@@ -13,8 +14,7 @@ const numberOfExamples = ref(1)
 const exampleRefreshKey = ref(0)
 
 const score = computed(() => {
-  const s = Math.max(2, 5 * (1 - errorCount.value / numberOfExamples.value))
-  return s
+  return Math.max(2, 5 * (1 - errorCount.value / numberOfExamples.value))
 })
 
 function getRandomItem(arr) {

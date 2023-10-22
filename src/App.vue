@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="js">
 import HomeView from "@/views/HomeView.vue";
 </script>
 
