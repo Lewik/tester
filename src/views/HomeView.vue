@@ -74,8 +74,12 @@ function check() {
     }
     i.value++
   } else {
+    let text = "Ты ничего не ввел"
+    if (answer.value) {
+      text = answer.value + "? " + getMessage(badMessages, badMessagesCounter)
+    }
     result.value = {
-      text: answer.value + "? " + getMessage(badMessages, badMessagesCounter),
+      text: text,
       color: "red"
     }
     errorCount.value++
