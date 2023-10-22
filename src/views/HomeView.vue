@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {rawGoodMessages} from "./good_messages";
 import {rawBadMessages} from "@/views/bad_messages";
 
@@ -97,6 +97,12 @@ function reset() {
   result.value = {}
 }
 
+onMounted(() => {
+  if (answerInput.value) {
+    answerInput.value.focus();
+  }
+})
+
 
 </script>
 
@@ -110,7 +116,7 @@ function reset() {
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field type="number" v-model="answer" :autofocus="true" pattern="\d*" ref="answerInput" size="x-large"/>
+          <v-text-field type="number" v-model="answer" pattern="\d*" ref="answerInput"/>
         </v-col>
         <v-col>
           <v-btn @click="check" color="green" size="x-large">Ответить</v-btn>
