@@ -72,15 +72,16 @@ function check() {
       text: getMessage(goodMessages, goodMessagesCounter),
       color: "green"
     }
-    answer.value = undefined
     i.value++
   } else {
     result.value = {
-      text: getMessage(badMessages, badMessagesCounter),
+      text: answer.value + "? " + getMessage(badMessages, badMessagesCounter),
       color: "red"
     }
     errorCount.value++
   }
+
+  answer.value = undefined
 
   if (answerInput.value) {
     answerInput.value.focus();
